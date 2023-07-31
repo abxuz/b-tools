@@ -7,8 +7,8 @@ type Set[T comparable] struct {
 type SetAny = Set[any]
 type SetString = Set[string]
 
-func NewSet[T comparable]() *Set[T] {
-	return (&Set[T]{}).Init()
+func NewSet[T comparable](vs ...T) *Set[T] {
+	return (&Set[T]{}).Init(vs...)
 }
 
 func NewSetFromSlice[T comparable](list []T) *Set[T] {
@@ -19,25 +19,29 @@ func NewSetFromSlice[T comparable](list []T) *Set[T] {
 	return set
 }
 
-func NewSetAny() *SetAny {
-	return NewSet[any]()
+func NewSetAny(vs ...any) *SetAny {
+	return NewSet[any](vs...)
 }
 
-func NewSetString() *SetString {
-	return NewSet[string]()
+func NewSetString(vs ...string) *SetString {
+	return NewSet[string](vs...)
 }
 
-func (s *Set[T]) Init() *Set[T] {
+func (s *Set[T]) Init(vs ...T) *Set[T] {
 	s.m = make(map[T]struct{})
+	return s.Set(vs...)
+}
+
+func (s *Set[T]) Set(vs ...T) *Set[T] {
+	for _, v := range vs {
+		s.m[v] = struct{}{}
+	}
 	return s
 }
 
-func (s *Set[T]) Set(v T) {
-	s.m[v] = struct{}{}
-}
-
-func (s *Set[T]) Remove(v T) {
+func (s *Set[T]) Remove(v T) *Set[T] {
 	delete(s.m, v)
+	return s
 }
 
 func (s *Set[T]) Has(v T) bool {

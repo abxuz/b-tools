@@ -1,5 +1,10 @@
 package bset
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Set[T comparable] struct {
 	m map[T]struct{}
 }
@@ -59,4 +64,20 @@ func (s *Set[T]) Range(f func(T) bool) {
 			break
 		}
 	}
+}
+
+func (s *Set[T]) String() string {
+	elements := make([]string, 0)
+	for v := range s.m {
+		elements = append(elements, fmt.Sprintf("%v", v))
+	}
+	return "[" + strings.Join(elements, ",") + "]"
+}
+
+func (s *Set[T]) ToSlice() []T {
+	list := make([]T, 0)
+	for v := range s.m {
+		list = append(list, v)
+	}
+	return list
 }

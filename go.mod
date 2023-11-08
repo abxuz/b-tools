@@ -1,4 +1,4 @@
-module github.com/xbugio/b-tools
+module github.com/abxuz/b-tools
 
 go 1.21
 

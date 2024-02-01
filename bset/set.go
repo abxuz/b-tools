@@ -9,7 +9,6 @@ type Set[T comparable] struct {
 	m map[T]struct{}
 }
 
-type SetAny = Set[any]
 type SetString = Set[string]
 
 func NewSet[T comparable](vs ...T) *Set[T] {
@@ -22,10 +21,6 @@ func NewSetFromSlice[T comparable](list []T) *Set[T] {
 		set.Set(v)
 	}
 	return set
-}
-
-func NewSetAny(vs ...any) *SetAny {
-	return NewSet[any](vs...)
 }
 
 func NewSetString(vs ...string) *SetString {

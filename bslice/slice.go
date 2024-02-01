@@ -1,11 +1,11 @@
 package bslice
 
-import "github.com/xbugio/b-tools/bset"
+import "github.com/abxuz/b-tools/bset"
 
-func Unique(size int, getKey func(i int) any) bool {
-	set := bset.NewSetAny()
-	for i := 0; i < size; i++ {
-		key := getKey(i)
+func Unique[Key comparable, Obj any](objs []Obj, getKey func(Obj) Key) bool {
+	set := bset.NewSet[Key]()
+	for _, obj := range objs {
+		key := getKey(obj)
 		if set.Has(key) {
 			return false
 		}
@@ -14,9 +14,9 @@ func Unique(size int, getKey func(i int) any) bool {
 	return true
 }
 
-func FindIndex(size int, filter func(int) bool) int {
-	for i := 0; i < size; i++ {
-		if match := filter(i); match {
+func FindIndex[Obj any](objs []Obj, filter func(Obj) bool) int {
+	for i, obj := range objs {
+		if match := filter(obj); match {
 			return i
 		}
 	}

@@ -84,12 +84,20 @@ func (s *Server) SetServerPrivateKey(pk bcrypt.NoisePrivateKey) {
 	s.serverPrivKey = &pk
 }
 
-func (s *Server) AddClientPublicKey(pk bcrypt.NoisePublicKey) {
+func (s *Server) AddClientPublicKey(pks ...bcrypt.NoisePublicKey) {
 	s.clientPubKeysLock.Lock()
 	defer s.clientPubKeysLock.Unlock()
 
-	h := string(hash(pk[:]))
-	s.clientPubKeys[h] = &pk
+	for _, pk := range pks {
+		h := string(hash(pk[:]))
+		s.clientPubKeys[h] = &pk
+	}
+}
+
+func (s *Server) ClearClientPublicKey() {
+	s.clientPubKeysLock.Lock()
+	defer s.clientPubKeysLock.Unlock()
+	clear(s.clientPubKeys)
 }
 
 func (s *Server) RemoveClientPublicKey(pk bcrypt.NoisePublicKey) {
@@ -149,7 +157,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	w.Write(data)
 }
 
-func (s *Server) ServeListener(l net.Listener) error {
+func (s *Server) ServeListener(l net.Listener, connCallback func(net.Conn) error) error {
 	for {
 		conn, err := l.Accept()
 		if err != nil {
@@ -157,6 +165,11 @@ func (s *Server) ServeListener(l net.Listener) error {
 		}
 		go func() {
 			defer conn.Close()
+			if connCallback != nil {
+				if err := connCallback(conn); err != nil {
+					return
+				}
+			}
 			s.ServeConn(conn)
 		}()
 	}

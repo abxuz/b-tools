@@ -10,21 +10,53 @@ import (
 )
 
 const (
-	NoisePublicKeySize    = 32
-	NoisePrivateKeySize   = 32
-	NoisePresharedKeySize = 32
+	NoisePublicKeySize  = 32
+	NoisePrivateKeySize = 32
+)
+
+var (
+	ErrInvalidPrivateKey = errors.New("invalid private key")
+	ErrInvalidPublicKey  = errors.New("invalid public key")
 )
 
 type (
-	NoisePublicKey    [NoisePublicKeySize]byte
-	NoisePrivateKey   [NoisePrivateKeySize]byte
-	NoisePresharedKey [NoisePresharedKeySize]byte
-	NoiseNonce        uint64 // padded to 12-bytes
+	NoisePublicKey  [NoisePublicKeySize]byte
+	NoisePrivateKey [NoisePrivateKeySize]byte
 )
 
 func NewPrivateKey() (sk NoisePrivateKey, err error) {
 	_, err = rand.Read(sk[:])
-	sk.clamp()
+	sk.Clamp()
+	return
+}
+
+func NewPrivateKeyFromString(s string) (sk NoisePrivateKey, err error) {
+	err = sk.FromString(s)
+	return
+}
+
+func NewPublicKeyFromString(s string) (sk NoisePublicKey, err error) {
+	err = sk.FromString(s)
+	return
+}
+
+func NewPrivateKeyFromData(data []byte) (sk NoisePrivateKey, err error) {
+	if len(data) != NoisePrivateKeySize {
+		err = ErrInvalidPrivateKey
+		return
+	}
+
+	copy(sk[:], data)
+	return
+}
+
+func NewPublicKeyFromData(data []byte) (sk NoisePublicKey, err error) {
+	if len(data) != NoisePublicKeySize {
+		err = ErrInvalidPublicKey
+		return
+	}
+
+	copy(sk[:], data)
 	return
 }
 
@@ -34,7 +66,7 @@ func (sk *NoisePrivateKey) FromString(s string) error {
 		return err
 	}
 	if n != NoisePrivateKeySize {
-		return errors.New("invalid private key")
+		return ErrInvalidPrivateKey
 	}
 	return nil
 }
@@ -66,7 +98,7 @@ func (key NoisePrivateKey) Equals(tar NoisePrivateKey) bool {
 	return Equals(key[:], tar[:])
 }
 
-func (sk *NoisePrivateKey) clamp() {
+func (sk *NoisePrivateKey) Clamp() {
 	sk[0] &= 248
 	sk[31] = (sk[31] & 127) | 64
 }
@@ -77,7 +109,7 @@ func (sk *NoisePublicKey) FromString(s string) error {
 		return err
 	}
 	if n != NoisePublicKeySize {
-		return errors.New("invalid public key")
+		return ErrInvalidPublicKey
 	}
 	return nil
 }

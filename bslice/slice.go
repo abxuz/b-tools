@@ -3,7 +3,7 @@ package bslice
 import "github.com/abxuz/b-tools/bset"
 
 func Unique[Key comparable, Obj any](objs []Obj, getKey func(Obj) Key) bool {
-	set := bset.NewSet[Key]()
+	set := bset.New[Key]()
 	for _, obj := range objs {
 		key := getKey(obj)
 		if set.Has(key) {

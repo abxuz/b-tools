@@ -11,7 +11,7 @@ type Set[T comparable] struct {
 
 type SetString = Set[string]
 
-func NewSet[T comparable](vs ...T) *Set[T] {
+func New[T comparable](vs ...T) *Set[T] {
 	return (&Set[T]{}).Init(vs...)
 }
 

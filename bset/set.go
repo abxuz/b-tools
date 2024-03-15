@@ -15,18 +15,6 @@ func NewSet[T comparable](vs ...T) *Set[T] {
 	return (&Set[T]{}).Init(vs...)
 }
 
-func NewSetFromSlice[T comparable](list []T) *Set[T] {
-	set := NewSet[T]()
-	for _, v := range list {
-		set.Set(v)
-	}
-	return set
-}
-
-func NewSetString(vs ...string) *SetString {
-	return NewSet[string](vs...)
-}
-
 func (s *Set[T]) Init(vs ...T) *Set[T] {
 	s.m = make(map[T]struct{})
 	return s.Set(vs...)
@@ -70,9 +58,11 @@ func (s *Set[T]) String() string {
 }
 
 func (s *Set[T]) ToSlice() []T {
-	list := make([]T, 0)
+	list := make([]T, s.Size())
+	i := 0
 	for v := range s.m {
-		list = append(list, v)
+		list[i] = v
+		i++
 	}
 	return list
 }

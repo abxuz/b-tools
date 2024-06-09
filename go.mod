@@ -6,8 +6,8 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	github.com/xtaci/smux v1.5.24
-	golang.org/x/crypto v0.21.0
-	golang.org/x/sys v0.18.0
+	golang.org/x/crypto v0.24.0
+	golang.org/x/sys v0.21.0
 )
 
 require (

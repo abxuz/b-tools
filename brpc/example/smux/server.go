@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/abxuz/b-tools/bcrypt"
-	"github.com/abxuz/b-tools/brpc"
+	"github.com/abxuz/b-tools/v2/bcrypt"
+	"github.com/abxuz/b-tools/v2/brpc"
 	"github.com/spf13/cobra"
 	"github.com/xtaci/smux"
 )

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/abxuz/b-tools/bcrypt"
-	"github.com/abxuz/b-tools/brpc/http"
+	"github.com/abxuz/b-tools/v2/bcrypt"
+	"github.com/abxuz/b-tools/v2/brpc/http"
 	"github.com/spf13/cobra"
 )
 

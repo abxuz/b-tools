@@ -8,8 +8,8 @@ import (
 	"io"
 	"time"
 
-	"github.com/abxuz/b-tools/bcrypt"
-	"github.com/abxuz/b-tools/brpc"
+	"github.com/abxuz/b-tools/v2/bcrypt"
+	"github.com/abxuz/b-tools/v2/brpc"
 )
 
 type OpenFunc = func() (io.ReadWriteCloser, error)

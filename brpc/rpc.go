@@ -6,7 +6,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 
-	"github.com/abxuz/b-tools/bcrypt"
+	"github.com/abxuz/b-tools/v2/bcrypt"
 )
 
 func encrypt(privKey *bcrypt.NoisePrivateKey, pubKey *bcrypt.NoisePublicKey, t int64, data []byte) ([]byte, error) {

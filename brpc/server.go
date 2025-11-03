@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/abxuz/b-tools/bcrypt"
+	"github.com/abxuz/b-tools/v2/bcrypt"
 	"github.com/vmihailenco/msgpack/v5"
 )
 

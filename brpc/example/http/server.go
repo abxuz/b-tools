@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/abxuz/b-tools/bcrypt"
-	"github.com/abxuz/b-tools/brpc"
+	"github.com/abxuz/b-tools/v2/bcrypt"
+	"github.com/abxuz/b-tools/v2/brpc"
 	"github.com/spf13/cobra"
 )
 
